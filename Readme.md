@@ -1,3 +1,8 @@
+-=(SCV Poseidon notes)=-
+
+Port from the latest MiSTer source (as of 18/9/2025).
+
+___
 # [Epoch Super Cassette Vision](https://en.wikipedia.org/wiki/Super_Cassette_Vision) core for [MISTer Platform](https://github.com/MiSTer-devel/Main_MiSTer/wiki)
 
 This is an emulator of the Epoch Super Cassette Vision.
@@ -91,3 +96,4 @@ Two cartridges had a mix of ROM sizes. No special mappers exist for them (yet). 
 - Cartridges
   - Save and restore battery-backed RAM
   - Make mappers for special cases
+
