@@ -1,0 +1,476 @@
+EPOCH TV-1
+==========
+
+References
+----------
+https://forums.atariage.com/topic/130365-atari-7800-vs-epoch-super-cassette-vision/ - [takeda.txt]
+http://takeda-toshiya.my.coocan.jp/scv/index.html
+https://github.com/mamedev/mame - src/mame/epoch/scv.cpp
+http://cmpslv2.starfree.jp/Scv/EnrScv.htm - pin names
+
+
+Overview
+--------
+. 64-pin DIP
+. Clock: 14.318181 MHz XTAL (NTSC)
+. Analog video -- R,G,B,\CSYNC
+  . R,G,B
+    . Three voltage levels
+    . Always lowest level during blanking
+  . \CSYNC
+    . Two voltage levels: LOW=60mV, HIGH=1.00V
+      . Normally LOW
+      . HIGH at HSYNC
+      . HIGH (XOR w/ HSYNC) at VSYNC
+  . Timing
+    . Full frame (incl. blanking): 260 cols x 263 rows
+    . Render area (incl. underscan): 208 cols x 232 rows
+    . Pixel rate: 4.090909 MHz (XTAL / 3.5)
+    . Line rate (horizontal refresh): 15734 kHz
+    . Frame rate (vertical refresh): 59.826 Hz
+
+
+Pinout
+------
+. 1-8     VD[0:7]     VRAM data
+. 9-16    DB[0:7]     CPU data
+. 18,19   X1,X2
+. 21      AGND
+. 22      CHROMA      50mV +/-270mV-p @ 3.58MHz
+. 23-25   R,G,B
+. 26      \CSYNC/LUMA
+. 27      VMODE       CVBS=0V, RGB=5V
+. 28      \VWE        VRAM write en.
+. 29      \SCPU       uPD1771C chip select
+. 30,31   \VCS[1:0]   VRAM chip selects
+. 33-43   VAB[0:10]   VRAM address
+. 44-57   AB[15,12:0] CPU address
+. 58      CLK         CPU Phi clock out
+. 60      \WAIT       CPU bus stall
+. 61      \RD         CPU read
+. 62      \WR         CPU write
+. 63      \RESET
+. 64      VBL         INT1 to CPU
+
+
+External VRAM
+-------------
+. Directly addressable from CPU ($2000-$2FFF)
+. uPD4016C-2 -- 200ns transaction time
+. 2 chips x 128 row x 128 col = 2 x 2048 x 8 bits
+. shared address and data buses
+. \VCS always select one chip
+. contents: sprite patterns
+. Bus cycle time: (7 / 14.318181) us = 2p
+. Bus cycle phase: start of odd columns + 3q
+
+
+Public internal RAM
+-------------------
+. Directly addressable from CPU ($3000-$33FF)
+. Address map:
+  000-1FF (512B) background (Character / graphics bitmap)
+  200-3FF (512B) sprite attributes (shadow)
+
+
+Private internal RAM
+--------------------
+. Not addressable from CPU
+. (512B) Sprite attributes (active)
+. (4 rows x 208[?] cols x 4 bits) sprite render buffer
+  . Dual-port access: 2 rows rendered while other 2 rows output
+
+
+Internal ROM
+------------
+. 000-3FF (1KB) Character patterns
+. Not accessible from CPU -- CPU ROM has its own copy
+
+
+Control registers
+-----------------
+
+R0 ($3400)
+. bit 0: enable bitmap
+. bit 1: bitmap res.: 0=hi-res, 1=lo-res
+. bit 2: hide sprites 64-127
+. bit 3: enable safe CPU access to sprite attributes RAM (disable shadow copy)
+. bit 4: enable sprites
+. bit 5: 2-color sprite mode
+. bit 6: invert XMAX effect: 1=render char. after XMAX
+. bit 7: invert YMAX effect: 1=render char. after YMAX
+
+R1 ($3401)
+. bits 7-4: hi-res bitmap FG color
+. bits 3-0: hi-res bitmap BG color
+
+R2 ($3402) - Character / graphics window split
+. bits 3-0: XMAX: tile pos tx = XMAX * 2
+. bits 7-4: YMAX: tile pos ty = YMAX * 1
+
+R3 ($3403)
+. bits 7-4: char. FG color
+. bits 3-0: char. BG color
+
+
+Registers are write-only; reads yield 0xFF.
+
+All registers are copied from shadow to active registers, so that
+changes are not observed mid-frame.  The copy occurs at the start of
+VSYNC (row 257).
+
+
+CPU memory bus
+--------------
+
+The TV-1 effectively uses A15 as its chip select. It only connects to
+address bits 15 and 12 - 0. (Note that A15 is externally pulled up,
+and uPD7801 tri-states A when accessing internal RAM/ROM.)
+
+The TV-1 decodes address and drives chip select for uPD1771C. The
+address decode appears to be combinatorial logic -- glitches are
+evident on chip select.
+
+Probing the SCV reveals that the TV-1 asserts \WAIT for all CPU
+accesses to it, including uPD1771C accesses (for which the TV-1
+decodes address).  \WAIT transition is aligned to the CPU Phi clock
+rising edge.  \WAIT will assert for one or more clock cycles,
+extending T2 (and the total access duration) by one or more T-cycles.
+The number of cycles depends on the address and read/write signals:
+
+- Background RAM read: 3
+- All other reads:     2
+- All writes:          1
+
+If \RD de-asserts in cycle n-2 and remains high in cycle n-1, then
+\WAIT will assert in cycle n (if A15 is low).  This usually coincides
+with T1 of a write cycle following a read.  (Note that the read does
+not have to address the TV-1).  \WAIT then remains asserted in T2 as
+per above, effectively extending \WAIT assertion by one cycle.  But
+because \WAIT assertion has no effect in T1, the total duration of the
+CPU access is unchanged.
+
+
+Screen size
+-----------
+
+The active render area, including underscan, is 208 cols x 232 rows.
+Borders outside this area contain black pixels.
+
+The character screen edges are used by some games for internal state.
+(For example, a character on the right edge of the Lupin III title
+screen "follows" the music.)  This is fine, as analog TV/monitor
+overscan hides the edges.
+
+My LCD TV with NTSC tuner, hooked up to the console's RF output, shows
+only the area (1,2)-(204,231).
+
+
+Background
+----------
+
+Screen is tiled and divided into character and graphics areas.
+
+  32x16 tilemap, 8x16 tiles
+  Tile @ (tx, ty) draws at render coord. (tx*8 - 19, ty*16 - 16)
+
+  Character
+  ---------
+
+  Character pattern is 6x8, drawn in top-right corner of tile
+  Characters in tiles (2,1)-(28,15) fall within the render area
+
+
+  Bitmapped graphics
+  ------------------
+
+  Two resolutions:
+  - lo-res: 32x32 bitmap, 4bpp color
+
+    b[3-0] color in tile top
+    b[7-4] color in tile bottom
+
+  - hi-res: 64x64 bitmap, 1bpp color
+
+    b3 b2  tile top
+    b1 b0
+    b7 b6
+    b5 b4  tile bottom
+
+
+Sprite pattern
+--------------
+
+. 16x16 1-color
+
+00[7,6,5,4] => byte address 0x00, bits 7-4
+
+    F  E  D  C  B  A  9  8  7  6  5  4  3  2  1  0  Col
+0   00[7,6,5,4] 01[7,6,5,4] 02[7,6,5,4] 03[7,6,5,4]
+1   00[3,2,1,0] 01[3,2,1,0] 02[3,2,1,0] 03[3,2,1,0]
+2   04[7,6,5,4] 05[7,6,5,4] 06[7,6,5,4] 07[7,6,5,4]
+3   04[3,2,1,0] 05[3,2,1,0] 06[3,2,1,0] 07[3,2,1,0]
+4-D      :           :           :           :
+E   1C[7,6,5,4] 1D[7,6,5,4] 1E[7,6,5,4] 1F[7,6,5,4]
+F   1C[3,2,1,0] 1D[3,2,1,0] 1E[3,2,1,0] 1F[3,2,1,0]
+Row
+
+
+Sprite attributes
+-----------------
+
+Sprite #sidx is described by 4 bytes:
+
+B0 ($0200 + sidx * 4)
+. bit 7-1:  Y position (sy)
+. bit 0:    link Y
+
+B1 ($0201 + sidx * 4)
+. bit 7-4:  start line
+. bit 3-0:  color
+
+B2 ($0202 + sidx * 4)
+. bit 7-1:  X position (sx)
+. bit 0:    link X
+
+B3 ($0203 + sidx * 4)
+. bit 7:    split
+. bit 6-0:  pattern index
+
+
+Sprite @ (sx, sy) draws at render coord. (sx*2 - 23, sy*2 - 14)
+
+[TODO: Lots of details, double/half-wide/high, 2-color, etc.]
+
+
+  Shadow / active RAM
+  -------------------
+
+  Sprite attributes are copied from the shadow (CPU-addressable) RAM
+  to the active RAM, during rows 258-261.  During the copy, CPU access
+  to shadow RAM is disabled: writes are ignored, and reads yield 0xFF.
+
+  Setting register R0 bit 3 disables the copy, making it safe for the
+  CPU to access attribute RAM.
+
+
+Character patterns
+------------------
+   0123 4567 89AB CDEF
+0x  αβɣ πΣΩ♠︎ ♥︎♦︎♣︎© ↳↵÷\
+1x ○●◉◻︎ ▦︎⎡⎤⎣ ⎦⫧♪♪ →←↑↓
+2x  !"# $%&' ()*+ ,-./
+3x 0123 4567 89:; <=>?
+4x @ABC DEFG HIJK LMNO
+5x PQRS TUVW XYZ[ ¥]^_
+6x  abc defg hijk lmno
+7x pqrs tuvw xyz{ |}~■
+
+8x-Fx repeat 0x-7x
+All patterns are only 6 bits wide.
+
+
+Colors
+------
+
+4-bit color == 16 colors
+R,G,B output three voltage levels: V0=250mV, V1=1110mV, V2=1400mV
+
+. V0-2 map of each color channel for all 16 colors
+
+Color #          11 1111
+     0123 4567 8901 2345
+     ---- ---- ---- ----
+  R: 0001 0100 2222 2112
+  G: 0000 2221 0101 2112
+  B: 1022 0120 0021 0012
+
+
+Video timing
+------------
+
+1q = 1/2 clock = (0.5 / 14.318181) us
+1p = pixel = 7q
+
+HSYNC period: 63.556us -- 15734 kHz
+VSYNC period: 16.7151ms -- 59.826 Hz
+
+(Rows and columns are 0-indexed.)
+
+Row 260 starts on VSYNC falling edge. (Actual row counter value is unknown.)
+- VBL is HIGH during rows 248-15 (total 31).
+- Pixels are rendered during rows 16-247 (VBL = 0).
+- VSYNC is HIGH (\CSYNC is inverted) during rows 257-259.
+
+Rows 260- 15: VBL = 1, VSYNC = 0
+Rows  16-247: VBL = 0, VSYNC = 0
+Rows 248-256: VBL = 1, VSYNC = 0
+Rows 257-259: VBL = 1, VSYNC = 1
+
+ -0.010us / v  -18q / ~-3p: VBL falling edge
+  0.614us / v    0q /   0p: \CSYNC falling edge
+  6.232us / ^  161q /  23p: start of first pixel rendered in row 19
+ 57.076us / v 1617q / 231p: end of last pixel rendered    "
+ 59.290us / v 1680q / 240p: \CSYNC rising edge
+ 64.172us / v 1820q / 260p: \CSYNC falling edge
+ 69.786us / ^ 1981q / 283p: start of first pixel rendered in row 20
+120.630us / ^ 3437q / 491p: end of last pixel rendered    "
+122.838us / v 3500q / 500p: \CSYNC rising edge
+127.724us / v 3640q / 520p: \CSYNC falling edge
+
+-62.948us / v    0q /   0p: \CSYNC falling edge               --- 14.6819ms
+-57.324us / ^  161q /  23p: start of first pixel rendered in row 18
+ -6.483us / ^ 1617q / 231p: end of last pixel rendered    "
+ -4.276us / v 1680q / 240p: \CSYNC rising edge
+ -0.017us / v 1802q /~257p: VBL rising edge                   --- 14.7449ms
+
+(^/v = clock [XOUT] rising/falling edge)
+
+
+Column 0 starts on HSYNC falling edge (\CSYNC falling). (Actual column counter value is unknown.)
+- VBL toggles on column 257 + 3q.
+- HSYNC is HIGH during columns 240-259.
+- Pixels are rendered during columns 23-230 (HBL = 0).
+
+Columns   0- 22: HBL = 1, HSYNC = 0
+Columns  23-230: HBL = 0, HSYNC = 0
+Columns 231-239: HBL = 1, HSYNC = 0
+Columns 240-259: HBL = 1, HSYNC = 1
+
+
+Reset behavior
+--------------
+
+Following \RESET de-assertion, there are 247 positive \CSYNC (HSYNC)
+pulses. VBL asserts during the 248th pulse.
+
+VBL is not de-asserted by \RESET. If VBL was asserted going into
+\RESET, it remains asserted, and then de-asserts during the 16th
+\CSYNC pulse.
+
+The above behaviors suggest that the row counter is cleared on \RESET,
+and that the first rendered row is row=16.
+
+
+Background rendering
+--------------------
+
+The background -- character or bitmapped graphics -- is rendered just
+before it is output.
+
+Reads from background RAM do not affect rendering (i.e., they have no
+visible effect) and are not affected by rendering (i.e., they are
+always correct).
+
+Writes to background RAM take effect almost immediately.  Writes that
+complete at least 2-4p before the left edge of the tile are visible.
+
+
+Sprite rendering
+----------------
+
+Sprites are evaluated and rendered two rows at a time, over the period
+that it takes to output two rows.  After being rendered, the two rows
+are then output, while simultaneously the sprites for the next two
+rows are rendered.
+
+Sprite evaluation + rendering happens on rows 2-253.  Taking VBL into
+account, sprites with y >= 123 (0x7B) are effectively invisible (not output).
+
+Sprites are evaluated in order from lowest to highest priority
+(attribute index).  Evaluation determines if the sprite is visible in
+the current 2-row.  A visible sprite is rendered immediately following
+evaluation of that sprite.
+
+Evaluation reads sprite attributes from the active RAM.
+
+Evaluation and rendering algorithm:
+
+    def is_spr_in_range(sa):
+        return (sa.sy + sa.start_line) & 0x7F == current_row
+
+    for idx in 0 .. 127:
+        # Evaluate
+        sa = sprite_attr[idx]
+        if is_spr_in_range(sa) and sa.color != 0:
+            # Update start line
+            sa.start_line += 1
+            if !sa.link_y and sa.start_line > 7:
+                sa.start_line = 0
+            # Render
+            for pos in 0 .. (width / 4 - 1):
+                Read a byte of sprite pattern data from VRAM
+                Draw pattern to render buffer
+
+Each step takes a fixed number of VRAM bus cycles:
+  Evaluate: 1 cycle
+  Render: 1 + (width in pixels / 4) cycles
+
+If sprite idx 0 is visible, then the VRAM address bus will first
+change in column 1, output its first pattern address in column 3, and
+the next address (A0 toggles) in column 5.  This implies that sprite
+evaluation of sprite idx 0 begins in column 259.
+
+Sprite width includes modifications by attribute flags that double
+(link) and halve the sprite.  For example:
+- a half-width sprite only takes 3 render cycles
+- a 2-color sprite takes 9 render cycles
+
+The start line is always updated for a sprite that passes the
+evaluation test.  Because the start line is also used to calculate the
+VRAM address, the update takes effect on the next 2-row.
+
+There are a maximum of 251 VRAM bus cycles (502p) available for sprite
+evaluation / rendering.  Due to this limitation, at most 41 - 24
+visible 16x16 sprites can be rendered per row.  The upper limit
+decreases (fewer rendered) as the visible sprites are moved down
+(higher index) the attribute table.  The last rendered sprite may be
+only partially rendered, dropping 1-3 nibbles (4-12px) from the right.
+
+CPU accesses to VRAM do not affect evalation or rendering timing.  The
+CPU access takes over the VRAM bus for an integer number of VRAM bus
+cycles, for roughly as long as \RDB or \WRB is low.  VRAM writes take
+2-3 bus cycles (\VWE asserts for one cycle less), and reads take 4-5
+cycles.  The CPU access replaces the intended sprite render access.
+The sprite pattern data seen by rendering is replaced by 0
+(transparent).  Dragon Ball shows this effect near the top of the
+screen, most notably on the edges of the scrolling land.
+
+
+Interesting Phenomena
+---------------------
+
+For N = 3-7 (1-15 if double-height), place a sprite at Y, start line
+== N, such that (Y + N) >= 0x81.  The top portion of the sprite will
+be rendered at the bottom of the screen as if start line was 0.
+
+For N = 8-15, place a normal height sprite at Y, start line = N.
+Sprite 2-row (N - 8) will be rendered at sprite Y pos ((Y + N) &
+0x7F).  If (Y + N) >= 0x81, then the top portion of the sprite will be
+rendered at the bottom of the screen as if start line was ((N - 7) &
+7).
+
+Place all 128 sprites at the same Y pos >= 0x78 (0x70 if
+double-height).  As expected, only the first 41 sprites will appear.
+Now, in frame 0, set R0 bit 3.  In the frame after R0 is latched
+(frame 1), nothing changes.  In the next three frames (frames 2-4),
+the sprites rendered in the previous frame will disappear, and the
+next 20-30 sprites will appear, limited by the render timeout.  This
+repeats every frame until all sprites have disappeared.
+
+Place a sprite at Y pos < 0x78 (0x70 if double-height), start line >
+0.  Now set R0 bit 3.  In the frame after R0 is latched (frame 1),
+nothing changes.  In all frames afterwards (frames 2 on), all lines of
+that sprite will appear, as if start line was 0.
+
+During sprite rendering, some VRAM address bits (VAB) change one VRAM
+bus cycle earlier than the other bits.  And some change in both cycles.
+- First render cycle: VAB[3:2], sometimes VAB[4,5]
+- Second render cycle: \VCS, VAB[1], VAB[10:4], sometimes VAB[4,5]
+- VAB[0] is always low in all cycles, except when rendering pattern
+  bytes at odd addresses.
+- VAB[1] normally resets low after rendering ends.  But if that sprite
+  had the split and link X attributes set, it will remain high.
+- Rendering a half-width/half-height sprite followed by a
+  double-height sprite can cause VAB[4] to pulse in the first render
+  cycle.
