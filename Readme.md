@@ -2,6 +2,7 @@
 
 Port from the latest MiSTer source (as of 18/9/2025).
 
+Known issues: Keyboard and Joystick need a proper remapping.
 ___
 # [Epoch Super Cassette Vision](https://en.wikipedia.org/wiki/Super_Cassette_Vision) core for [MISTer Platform](https://github.com/MiSTer-devel/Main_MiSTer/wiki)
 
@@ -96,4 +97,5 @@ Two cartridges had a mix of ROM sizes. No special mappers exist for them (yet). 
 - Cartridges
   - Save and restore battery-backed RAM
   - Make mappers for special cases
+
 
