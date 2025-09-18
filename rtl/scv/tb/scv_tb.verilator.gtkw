@@ -1,0 +1,235 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Sun Nov 17 05:58:52 2024
+[*]
+[dumpfile] "/Users/dhunter/src/mister/SuperCassetteVision_MiSTer/rtl/scv/tb/scv_tb.verilator.fst"
+[dumpfile_mtime] "Sun Nov 17 05:55:25 2024"
+[dumpfile_size] 29982762
+[savefile] "/Users/dhunter/src/mister/SuperCassetteVision_MiSTer/rtl/scv/tb/scv_tb.verilator.gtkw"
+[timestart] 1998341103960
+[size] 1288 600
+[pos] -1 -1
+*-37.913200 2581413334200 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] TOP.
+[treeopen] TOP.scv_tb.
+[treeopen] TOP.scv_tb.dut.
+[treeopen] TOP.scv_tb.dut.apu.
+[sst_width] 253
+[signals_width] 243
+[sst_expanded] 1
+[sst_vpaned_height] 159
+@28
+TOP.scv_tb.dut.CLK
+TOP.scv_tb.dut.RESB
+TOP.scv_tb.dut.cpu.M1
+@22
+TOP.scv_tb.dut.cpu_a[15:0]
+TOP.scv_tb.dut.cpu.DB_I[7:0]
+TOP.scv_tb.dut.cpu.DB_O[7:0]
+@28
+TOP.scv_tb.dut.cpu.RDB
+TOP.scv_tb.dut.cpu.WRB
+@22
+TOP.scv_tb.dut.cpu.PC_O[7:0]
+@28
+TOP.scv_tb.dut.cpu.INT1
+@c00200
+-vdc
+@28
+TOP.scv_tb.dut.vdc.CE
+@24
+TOP.scv_tb.dut.vdc.row[8:0]
+TOP.scv_tb.dut.vdc.col[8:0]
+@28
+TOP.scv_tb.dut.vdc.VBL
+TOP.scv_tb.dut.vdc.nVWE
+@c00200
+-cpu bus
+@22
+TOP.scv_tb.dut.vdc.A[12:0]
+TOP.scv_tb.dut.vdc.DB_I[7:0]
+TOP.scv_tb.dut.vdc.DB_O[7:0]
+@28
+TOP.scv_tb.dut.vdc.RDB
+TOP.scv_tb.dut.vdc.WRB
+TOP.scv_tb.dut.vdc.CSB
+TOP.scv_tb.dut.vdc.WAITB
+@1000200
+-cpu bus
+@c00200
+-ioreg
+@22
+TOP.scv_tb.dut.vdc.ioreg0[7:0]
+TOP.scv_tb.dut.vdc.ioreg1[7:0]
+TOP.scv_tb.dut.vdc.ioreg2[7:0]
+TOP.scv_tb.dut.vdc.ioreg3[7:0]
+@1401200
+-ioreg
+@c00200
+-bgr
+@22
+TOP.scv_tb.dut.vdc.bgr_tx[4:0]
+TOP.scv_tb.dut.vdc.bgr_ty[4:0]
+@28
+TOP.scv_tb.dut.vdc.bgr_xwin
+TOP.scv_tb.dut.vdc.bgr_ywin
+TOP.scv_tb.dut.vdc.bgr_bm
+@22
+TOP.scv_tb.dut.vdc.bgr_bm_bgc[3:0]
+TOP.scv_tb.dut.vdc.bgr_bm_fgc[3:0]
+@28
+TOP.scv_tb.dut.vdc.bgr_bm_hipat[1:0]
+@22
+TOP.scv_tb.dut.vdc.bgr_bm_lopat[3:0]
+TOP.scv_tb.dut.vdc.bgr_bm_pat[7:0]
+@28
+TOP.scv_tb.dut.vdc.bgr_ch
+@22
+TOP.scv_tb.dut.vdc.bgr_ch_bgc[3:0]
+TOP.scv_tb.dut.vdc.bgr_ch_fgc[3:0]
+TOP.scv_tb.dut.vdc.bgr_ch_pat[7:0]
+TOP.scv_tb.dut.vdc.bgr_bgc[3:0]
+TOP.scv_tb.dut.vdc.bgr_fgc[3:0]
+TOP.scv_tb.dut.vdc.bgr_px[3:0]
+@1401200
+-bgr
+@c00200
+-spr
+@22
+TOP.scv_tb.dut.vdc.oam_idx[6:0]
+TOP.scv_tb.dut.vdc.spr_x[4:0]
+TOP.scv_tb.dut.vdc.spr_y[4:0]
+TOP.scv_tb.dut.vdc.spr_oa[31:0]
+TOP.scv_tb.dut.vdc.spr_tile[6:0]
+TOP.scv_tb.dut.vdc.spr_vram_addr[11:0]
+@28
+TOP.scv_tb.dut.vdc.spr_half_w
+TOP.scv_tb.dut.vdc.spr_half_h
+TOP.scv_tb.dut.vdc.spr_dbl_w
+TOP.scv_tb.dut.vdc.spr_dbl_h
+TOP.scv_tb.dut.vdc.spr_2clr
+TOP.scv_tb.dut.vdc.spr_y_in_range
+TOP.scv_tb.dut.vdc.spr_d0
+TOP.scv_tb.dut.vdc.spr_dw2
+TOP.scv_tb.dut.vdc.spr_dh2
+TOP.scv_tb.dut.vdc.spr_dact
+TOP.scv_tb.dut.vdc.spr_dact_d
+@22
+TOP.scv_tb.dut.vdc.spr_dpat[7:0]
+TOP.scv_tb.dut.vdc.spr_dsr[15:0]
+TOP.scv_tb.dut.vdc.spr_dsx[7:0]
+TOP.scv_tb.dut.vdc.spr_dclr[3:0]
+@28
+TOP.scv_tb.dut.vdc.spr_dact_d2
+@1401200
+-spr
+@c00200
+-olb
+@22
+TOP.scv_tb.dut.vdc.olb_wa[6:0]
+TOP.scv_tb.dut.vdc.olb_wd[31:0]
+TOP.scv_tb.dut.vdc.olb_we[7:0]
+TOP.scv_tb.dut.vdc.olb_ra[6:0]
+TOP.scv_tb.dut.vdc.olb_rd[31:0]
+@28
+TOP.scv_tb.dut.vdc.olb_re
+@1401200
+-olb
+@c00200
+-sofp
+@24
+TOP.scv_tb.dut.vdc.sofp_st[2:0]
+@22
+TOP.scv_tb.dut.vdc.sofp_wdc_bg[3:0]
+TOP.scv_tb.dut.vdc.sofp_wdc_fg[3:0]
+TOP.scv_tb.dut.vdc.sofp_wds[7:0]
+TOP.scv_tb.dut.vdc.sofp_rx[7:0]
+TOP.scv_tb.dut.vdc.sofp_rrs[2:0]
+TOP.scv_tb.dut.vdc.sofp_px[3:0]
+@1401200
+-sofp
+@c00200
+-out
+@28
+TOP.scv_tb.dut.vdc.render_row
+TOP.scv_tb.dut.vdc.render_col
+@22
+TOP.scv_tb.dut.vdc.pd[3:0]
+@28
+TOP.scv_tb.dut.vdc.VBL
+TOP.scv_tb.dut.vdc.DE
+TOP.scv_tb.dut.vdc.HS
+TOP.scv_tb.dut.vdc.VS
+@22
+TOP.scv_tb.dut.vdc.RGB[23:0]
+@1401200
+-out
+-vdc
+@22
+TOP.scv_tb.dut.HMI[24:0]
+TOP.scv_tb.dut.VID_RGB[23:0]
+@800200
+-apu
+@28
+TOP.scv_tb.dut.apu.RESB
+@22
+TOP.scv_tb.dut.apu.PA_I[7:0]
+@800022
+TOP.scv_tb.dut.apu.PB_I[7:0]
+@28
+(0)TOP.scv_tb.dut.apu.PB_I[7:0]
+(1)TOP.scv_tb.dut.apu.PB_I[7:0]
+@1001200
+-group_end
+@800022
+TOP.scv_tb.dut.apu.PB_O[7:0]
+@28
+(7)TOP.scv_tb.dut.apu.PB_O[7:0]
+@1001200
+-group_end
+@10420
+TOP.scv_tb.dut.apu.PCM_OUT[8:0]
+@20000
+-
+@22
+TOP.scv_tb.dut.apu.ab[11:0]
+TOP.scv_tb.dut.apu.a[7:0]
+TOP.scv_tb.dut.apu.x[6:0]
+TOP.scv_tb.dut.apu.y[4:0]
+TOP.scv_tb.dut.apu.int_active[3:0]
+TOP.scv_tb.dut.apu.nc[7:0]
+TOP.scv_tb.dut.apu.n[7:0]
+@28
+TOP.scv_tb.dut.apu.nuc[2:0]
+@29
+TOP.scv_tb.dut.apu.int_tone_trig
+@1000200
+-apu
+[pattern_trace] 1
+[pattern_trace] 0

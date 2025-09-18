@@ -1,0 +1,227 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Wed Sep  3 05:53:48 2025
+[*]
+[dumpfile] "/Users/dhunter/src/mister/SuperCassetteVision_MiSTer/rtl/scv/epochtv1/tb/render_tb.vcd"
+[dumpfile_mtime] "Wed Sep  3 05:52:53 2025"
+[dumpfile_size] 49204581
+[savefile] "/Users/dhunter/src/mister/SuperCassetteVision_MiSTer/rtl/scv/epochtv1/tb/render_tb.gtkw"
+[timestart] 0
+[size] 1288 600
+[pos] -1 -1
+*-30.061314 4513340160 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] render_tb.
+[treeopen] render_tb.dut.
+[sst_width] 253
+[signals_width] 234
+[sst_expanded] 1
+[sst_vpaned_height] 159
+@28
+render_tb.dut.CE
+@24
+render_tb.dut.row[8:0]
+render_tb.dut.col[8:0]
+@c00200
+-cpu bus
+@22
+render_tb.dut.A[12:0]
+render_tb.dut.DB_I[7:0]
+render_tb.dut.DB_O[7:0]
+@28
+render_tb.dut.RDB
+render_tb.dut.WRB
+render_tb.dut.CSB
+@1401200
+-cpu bus
+@800200
+-ioreg
+@22
+render_tb.dut.ioreg0[7:0]
+render_tb.dut.ioreg1[7:0]
+render_tb.dut.ioreg2[7:0]
+render_tb.dut.ioreg3[7:0]
+@1000200
+-ioreg
+@c00200
+-boc
+@28
+render_tb.dut.boc_active
+@22
+render_tb.dut.boc_idx[6:0]
+@1401200
+-boc
+@c00200
+-bgr
+@22
+render_tb.dut.bgr_tx[4:0]
+render_tb.dut.bgr_ty[4:0]
+@28
+render_tb.dut.bgr_xwin
+render_tb.dut.bgr_ywin
+render_tb.dut.bgr_bm
+@22
+render_tb.dut.bgr_bm_bgc[3:0]
+render_tb.dut.bgr_bm_fgc[3:0]
+@28
+render_tb.dut.bgr_bm_hipat[1:0]
+@22
+render_tb.dut.bgr_bm_lopat[3:0]
+render_tb.dut.bgr_bm_pat[7:0]
+@28
+render_tb.dut.bgr_ch
+@22
+render_tb.dut.bgr_ch_bgc[3:0]
+render_tb.dut.bgr_ch_fgc[3:0]
+render_tb.dut.bgr_ch_pat[7:0]
+render_tb.dut.bgr_bgc[3:0]
+render_tb.dut.bgr_fgc[3:0]
+render_tb.dut.bgr_pat[7:0]
+render_tb.dut.bgr_px[3:0]
+@1401200
+-bgr
+@800200
+-oam2
+@22
+render_tb.dut.oam2_ra[6:0]
+render_tb.dut.oam2_rbuf[31:0]
+render_tb.dut.oam2_wa1[6:0]
+render_tb.dut.oam2_wa2[6:0]
+render_tb.dut.oam2_wa[6:0]
+render_tb.dut.oam2_wbuf1[31:0]
+render_tb.dut.oam2_wbuf2[31:0]
+render_tb.dut.oam2_wbuf[31:0]
+@28
+render_tb.dut.oam2_we
+render_tb.dut.oam2_we1
+render_tb.dut.oam2_we2
+render_tb.dut.oam2_wpsel
+@1000200
+-oam2
+@800200
+-spr
+@22
+render_tb.dut.oam_idx[6:0]
+@24
+render_tb.dut.spr_y[4:0]
+@28
+render_tb.dut.spr_nc
+@29
+render_tb.dut.spr_vram_re
+@800022
+render_tb.dut.spr_vram_addr[11:0]
+@28
+(0)render_tb.dut.spr_vram_addr[11:0]
+(1)render_tb.dut.spr_vram_addr[11:0]
+(2)render_tb.dut.spr_vram_addr[11:0]
+(3)render_tb.dut.spr_vram_addr[11:0]
+(4)render_tb.dut.spr_vram_addr[11:0]
+(5)render_tb.dut.spr_vram_addr[11:0]
+(6)render_tb.dut.spr_vram_addr[11:0]
+(7)render_tb.dut.spr_vram_addr[11:0]
+(8)render_tb.dut.spr_vram_addr[11:0]
+(9)render_tb.dut.spr_vram_addr[11:0]
+(10)render_tb.dut.spr_vram_addr[11:0]
+(11)render_tb.dut.spr_vram_addr[11:0]
+@1001200
+-group_end
+@22
+render_tb.dut.spr_oa_eval[31:0]
+render_tb.dut.spr_tile[6:0]
+@28
+render_tb.dut.spr_half_w
+render_tb.dut.spr_half_h
+render_tb.dut.spr_dbl_w
+render_tb.dut.spr_dbl_h
+render_tb.dut.spr_2clr
+render_tb.dut.spr_skip_dl
+render_tb.dut.spr_skip_dt
+@24
+render_tb.dut.spr_cy[6:0]
+@28
+render_tb.dut.spr_y_in_range
+render_tb.dut.spr_d0
+render_tb.dut.spr_dw2
+render_tb.dut.spr_dh2
+render_tb.dut.spr_d
+@22
+render_tb.dut.spr_dpat[7:0]
+render_tb.dut.spr_dsr[15:0]
+render_tb.dut.spr_dsx[7:0]
+render_tb.dut.spr_dclr[3:0]
+@1000200
+-spr
+@c00200
+-olb
+@22
+render_tb.dut.olb_wa[6:0]
+render_tb.dut.olb_wd[31:0]
+render_tb.dut.olb_we[7:0]
+render_tb.dut.olb_ra[6:0]
+render_tb.dut.olb_rd[31:0]
+@28
+render_tb.dut.olb_re
+@1401200
+-olb
+@800200
+-sofp
+@28
+render_tb.dut.sofp_ce
+render_tb.dut.sofp_row_end
+@24
+render_tb.dut.sofp_st_next[2:0]
+render_tb.dut.sofp_st[2:0]
+@22
+render_tb.dut.sofp_wdc_bg[3:0]
+render_tb.dut.sofp_wdc_fg[3:0]
+render_tb.dut.sofp_wds[7:0]
+render_tb.dut.sofp_rx[7:0]
+render_tb.dut.sofp_rrs[2:0]
+render_tb.dut.sofp_px[3:0]
+@1000200
+-sofp
+@800200
+-out
+@28
+render_tb.dut.render_row
+render_tb.dut.render_col
+render_tb.dut.visible_row
+render_tb.dut.visible_col
+@22
+render_tb.dut.pd[3:0]
+@28
+render_tb.dut.VBL
+render_tb.dut.DE
+render_tb.dut.HS
+render_tb.dut.VS
+@22
+render_tb.dut.RGB[23:0]
+@1000200
+-out
+[pattern_trace] 1
+[pattern_trace] 0

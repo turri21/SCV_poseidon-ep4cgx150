@@ -1,0 +1,114 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Sun Dec 29 01:24:30 2024
+[*]
+[dumpfile] "/Users/dhunter/src/mister/SuperCassetteVision_MiSTer/rtl/scv/tb/scv_tb.vcd"
+[dumpfile_mtime] "Sun Dec 29 01:24:21 2024"
+[dumpfile_size] 450763673
+[savefile] "/Users/dhunter/src/mister/SuperCassetteVision_MiSTer/rtl/scv/tb/scv_tb.gtkw"
+[timestart] 0
+[size] 1288 600
+[pos] -1 -1
+*-30.213037 3238410960 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] scv_tb.
+[treeopen] scv_tb.dut.
+[treeopen] scv_tb.dut.cart.mapper.
+[treeopen] scv_tb.dut.cart.rom.
+[sst_width] 253
+[signals_width] 208
+[sst_expanded] 1
+[sst_vpaned_height] 159
+@28
+scv_tb.dut.CLK
+scv_tb.dut.RESB
+scv_tb.dut.cpu_a_oe
+scv_tb.dut.cart_ncs
+scv_tb.dut.vdc_ncs
+@800200
+-cpu
+@28
+scv_tb.dut.cpu.CP2_NEGEDGE
+@22
+scv_tb.dut.cpu_a[15:0]
+scv_tb.dut.cpu.DB_I[7:0]
+scv_tb.dut.cpu.DB_O[7:0]
+@28
+scv_tb.dut.cpu.DB_OE
+scv_tb.dut.cpu.RDB
+scv_tb.dut.cpu.WRB
+scv_tb.dut.cpu.WAITB
+@1000200
+-cpu
+@c00200
+-vdc
+@22
+scv_tb.dut.vdc.A[12:0]
+scv_tb.dut.vdc.DB_I[7:0]
+scv_tb.dut.vdc.DB_O[7:0]
+@28
+scv_tb.dut.vdc.DB_OE
+scv_tb.dut.vdc.CE
+scv_tb.dut.vdc.RDB
+scv_tb.dut.vdc.WRB
+scv_tb.dut.vdc.CSB
+scv_tb.dut.vdc.VBL
+scv_tb.dut.vdc.cpu_sel_bgm
+scv_tb.dut.vdc.cpu_sel_oam
+scv_tb.dut.vdc.cpu_sel_vram
+scv_tb.dut.vdc.cpu_sel_reg
+scv_tb.dut.vdc.cpu_rd
+scv_tb.dut.vdc.cpu_wr
+scv_tb.dut.vdc.cpu_csb_d
+scv_tb.dut.vdc.cpu_csb_negedge
+scv_tb.dut.vdc.cpu_waitb_p
+@22
+scv_tb.dut.vdc.oam_a[6:0]
+scv_tb.dut.vdc.oam_rbuf[31:0]
+scv_tb.dut.vdc.oam_wbuf[31:0]
+@1401200
+-vdc
+@800200
+-cart
+@28
+scv_tb.dut.cart.CSB
+@22
+scv_tb.dut.cart.id.IN_MAPPER[3:0]
+scv_tb.dut.cart.id.ROM_CKSUM[31:0]
+@24
+scv_tb.dut.cart.id.ROM_SIZE_LOG2[4:0]
+@22
+scv_tb.dut.cart.id.id_mapper[3:0]
+scv_tb.dut.cart.mapper.MAPPER[3:0]
+scv_tb.dut.cart.mapper.ROM_A[16:0]
+@28
+scv_tb.dut.cart.mapper.ram_en
+@1000200
+-cart
+[pattern_trace] 1
+[pattern_trace] 0
